@@ -24,7 +24,7 @@ source env.sh
 This will setup the working environment by setting up the paths to the simulator (ModelSim) and project root directory.
 An expected output after executing this command should look like this:
 ```
-===== EECS 4201 Course Environment Setup =====
-Location of project:  /cs/home/kaushika/EECS-4201-project
+===== VERILOG MODELSIM Environment Setup =====
+Location of project:  /cs/home/kietle/repos/hdc-workshops
 VSIM version:  Model Technology ModelSim - INTEL FPGA STARTER EDITION vsim 2020.1 Simulator 2020.02 Feb 28 2020
 ```
