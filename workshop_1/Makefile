@@ -3,10 +3,10 @@
 # =====================
 
 # List of testbenches (example: TESTBENCHES = theta_step_tb rho_step_tb)
-TESTBENCHES = example_tb abc_tb
+TESTBENCHES = example_tb abc_tb counter_tb
 
 # RTL design and package files (example: PKG_SRCS = rtl/keccak_pkg.sv)
-PKG_SRCS = rtl/example.sv rtl/abc.sv
+PKG_SRCS = rtl/example.sv rtl/abc.sv rtl/counter.sv
 DESIGN_SRCS = $(wildcard rtl/*.sv)
 COMMON_SRCS = $(wildcard rtl/*.svh)
 
