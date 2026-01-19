@@ -29,8 +29,8 @@ module counter_tb;
     ) dut (
         .clk(clk),
         .reset(reset),
-        .count(count),       // Connect to our monitor wire
-        .complete(complete)
+        .count_o(count),       // Connect to our monitor wire
+        .complete_o(complete)
     );
 
     // --- Test Sequence ---
