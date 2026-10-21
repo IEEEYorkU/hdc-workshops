@@ -3,10 +3,10 @@
 # =====================
 
 # List of testbenches
-TESTBENCHES = example_tb abc_tb
+TESTBENCHES = example_tb abc_tb half_adder_tb full_adder_tb
 
 # RTL design and package files
-PKG_SRCS = rtl/example.sv rtl/abc.sv
+PKG_SRCS = rtl/example.sv rtl/abc.sv rtl/half_adder.sv rtl/full_adder.sv
 DESIGN_SRCS = $(wildcard rtl/*.sv)
 COMMON_SRCS = $(wildcard rtl/*.svh)
 

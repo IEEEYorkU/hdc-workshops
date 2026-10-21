@@ -2,3 +2,6 @@ work/
 transcript
 *.vcd
 obj_dir/
+
+*/*.vcd
+*/obj_dir/

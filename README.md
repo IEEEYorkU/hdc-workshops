@@ -4,7 +4,7 @@
 Note that the below steps assume a linux environment with ModelSim installed.
 
 ### Step 0: Setup your workstation
-You will need a workstation (duh). You may either use your personal computer with [ModelSim](https://www.intel.com/content/www/us/en/software-kit/750368/modelsim-intel-fpgas-standard-edition-software-version-18-1.html) with [gtkwave](https://gtkwave.sourceforge.net/) to view the VCD waveforms or use one of the linux remote machines [EA machines](https://remotelab.eecs.yorku.ca/#/) provided by the department.
+You will need a workstation (duh). You may either use your personal computer with [Verilator](https://verilator.org/guide/latest/) with [gtkwave](https://gtkwave.sourceforge.net/) to view the VCD waveforms or use one of the linux remote machines [EA machines](https://remotelab.eecs.yorku.ca/#/) provided by the department.
 
 The below steps have been tested on a EA linux machine provided by the department and on a personal linux workstation. If you would like to develop on a windows system, then you will have to develop your own scripts and methodologies to load and test your designs.
 
