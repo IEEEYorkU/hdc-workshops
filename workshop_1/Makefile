@@ -3,7 +3,7 @@
 # =====================
 
 # List of testbenches
-TESTBENCHES = example_tb abc_tb half_adder_tb full_adder_tb 2_to_1_mux_tb 4_to_1_mux_tb
+TESTBENCHES = example_tb abc_tb half_adder_tb full_adder_tb mux_2_to_1_tb mux_4_to_1_tb
 
 # RTL design and package files
 PKG_SRCS = rtl/example.sv rtl/abc.sv rtl/half_adder.sv rtl/full_adder.sv

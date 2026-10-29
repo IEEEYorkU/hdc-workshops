@@ -3,7 +3,7 @@
 `define RESET_CYCLES 5
 `define TIMEOUT      1000
 
-module 2_to_1_mux_tb();
+module mux_4_to_1_tb();
 
     logic rst = 1;
     logic clk = 0;
@@ -13,12 +13,15 @@ module 2_to_1_mux_tb();
         #1 clk = ~clk;
     end
 
-    logic a_0, a_1, sel, b;
+    logic a_0, a_1, a_2, a_3, b;
+    logic [1:0] sel;
 
-    2_to_1_mux mux_i (
+    mux_4_to_1 mux_i (
         // Inputs
         .a_0(a_0),
         .a_1(a_1),
+        .a_2(a_2),
+        .a_3(a_3),
         .sel_i(sel),
 
         // Outputs
@@ -26,32 +29,49 @@ module 2_to_1_mux_tb();
     );
 
     initial begin
-        a_0 = 0;
-        a_1 = 0;
-        sel = 0;
+        {a_3, a_2, a_1, a_0} = '0;
+        sel = 2'd0;
         wait(rst == 0); // Wait for reset
 
-        a_0 = 1;
-        a_1 = 0;
-        sel = 0;
+        {a_3, a_2, a_1, a_0} = 4'b0001;
+        sel = 2'd0;
         #1;     // Wait for 1 cycle so combinational output is ready.
 
-        $display("  %0b  |  %0b  |  %0b  |  %0b  |",
-                 a_0, a_1, sel, b);
+        $display("  %0b  |  %0b  |  %0b  | %0b  |  %0b  |", a_3, a_2, a_0, a_1, b);
         if (b !== a_0) begin
             $display("FAIL: a_0=1, sel=0, b=0");
             $finish;
+        end
 
-        a_0 = 0;
-        a_1 = 1;
-        sel = 1;
+        {a_3, a_2, a_1, a_0} = 4'b0010;
+        sel = 2'd1;
         #1;     // Wait for 1 cycle so combinational output is ready.
 
-        $display("  %0b  |  %0b  |  %0b  |  %0b  |",
-                 a_0, a_1, sel, b);
+        $display("  %0b  |  %0b  |  %0b  | %0b  |  %0b  |", a_3, a_2, a_0, a_1, b);
         if (b !== a_1) begin
             $display("FAIL: a_1=1, sel=1, b=0");
             $finish;
+        end
+
+        {a_3, a_2, a_1, a_0} = 4'b0100;
+        sel = 2'd2;
+        #1;     // Wait for 1 cycle so combinational output is ready.
+
+        $display("  %0b  |  %0b  |  %0b  | %0b  |  %0b  |", a_3, a_2, a_0, a_1, b);
+        if (b !== a_2) begin
+            $display("FAIL: a_2=1, sel=2, b=0");
+            $finish;
+        end
+
+        {a_3, a_2, a_1, a_0} = 4'b1000;
+        sel = 2'd3;
+        #1;     // Wait for 1 cycle so combinational output is ready.
+
+        $display("  %0b  |  %0b  |  %0b  | %0b  |  %0b  |", a_3, a_2, a_0, a_1, b);
+        if (b !== a_3) begin
+            $display("FAIL: a_3=1, sel=3, b=0");
+            $finish;
+        end
 
         $finish;
         $display("========== Simulation Complete ==========");
@@ -76,8 +96,8 @@ module 2_to_1_mux_tb();
     // Saving .vcd files. To be used in gtkwaveor vapor view extension in
     // vscode.
     initial begin
-        $dumpfile("2_to_1_mux_tb.vcd");
-        $dumpvars(0, 2_to_1_mux_tb);
+        $dumpfile("mux_4_to_1_tb.vcd");
+        $dumpvars(0, mux_4_to_1_tb);
         $system("date");
     end
 
