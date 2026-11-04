@@ -1,5 +1,8 @@
 `timescale 1ns / 1ps
 
+`define RESET_CYCLES 5
+`define TIMEOUT      1000
+
 // This is the testbench module
 module counter_tb;
 
@@ -8,6 +11,8 @@ module counter_tb;
     localparam DWIDTH     = 5;
     localparam INC_SIZE   = 1; // Try with 1, 2, or 3!
     localparam MAX_COUNT  = (2**DWIDTH) - 1;
+
+    logic rst = 1;
 
     // --- Clock Generation ---
     localparam int CLK_PERIOD = 10; // 10ns clock period
@@ -21,6 +26,7 @@ module counter_tb;
     reg  reset;
     wire [DWIDTH-1:0] count;   // Monitor the counter's value
     wire complete;            // Monitor the 'complete' flag
+    int num_cycles_to_run;
 
     // --- Instantiate the DUT (Device Under Test) ---
     counter #(
@@ -35,8 +41,10 @@ module counter_tb;
 
     // --- Test Sequence ---
     initial begin
+        wait(rst == 0); // Wait for reset
+
         // --- Declarations must come FIRST inside a block ---
-        int num_cycles_to_run = (2**DWIDTH) * 2;
+        num_cycles_to_run = (2**DWIDTH) * 2;
 
         $display("--- Test Start ---");
         $display("DWIDTH=%0d, INC_SIZE=%0d, MAX_COUNT=%0d", DWIDTH, INC_SIZE, MAX_COUNT);
@@ -86,6 +94,30 @@ module counter_tb;
             assert (complete == (count == MAX_COUNT))
                 else $error("Assertion failed at Time=%0t! Count=%0d, but Complete=%b", $time, count, complete);
         end
+    end
+
+    // Borrowed from clockgen.sv
+    integer counter = 0;
+    always_ff @(posedge clk) begin
+        counter <= counter + 1;
+        if (counter < `RESET_CYCLES) begin
+            rst <= 1;
+        end else begin
+            rst <= 0;
+        end
+
+        if (counter >= `TIMEOUT) begin
+            $display("========== Simulation TIMEOUT!!! ==========");
+            $finish;
+        end
+    end
+
+    // Saving .vcd files. To be used in gtkwaveor vapor view extension in
+    // vscode.
+    initial begin
+        $dumpfile("counter_tb.vcd");
+        $dumpvars(0, counter);
+        $system("date");
     end
 
 endmodule
