@@ -5,7 +5,12 @@
 
 `timescale 1ns / 1ps
 
+`define RESET_CYCLES 5
+`define TIMEOUT      1000
+
 module subway_gate_fsm_tb;
+
+    logic tb_rst = 1;
 
     // ==========================================
     // 1. SIGNAL DECLARATION
@@ -41,6 +46,8 @@ module subway_gate_fsm_tb;
     // 4. STIMULUS (The Test Scenario)
     // ==========================================
     initial begin
+        wait(tb_rst == 0); // Wait for reset
+
         // Setup formatting for the console output
         $display("----------------------------------------------------------------");
         $display("Time | Reset | Start Signal | Gate Output | Internal State");
@@ -82,6 +89,30 @@ module subway_gate_fsm_tb;
         $display("----------------------------------------------------------------");
         $display("Test Complete.");
         $finish; // Stop simulation
+    end
+
+    // Borrowed from clockgen.sv
+    integer counter = 0;
+    always_ff @(posedge clk) begin
+        counter <= counter + 1;
+        if (counter < `RESET_CYCLES) begin
+            tb_rst <= 1;
+        end else begin
+            tb_rst <= 0;
+        end
+
+        if (counter >= `TIMEOUT) begin
+            $display("========== Simulation TIMEOUT!!! ==========");
+            $finish;
+        end
+    end
+
+    // Saving .vcd files. To be used in gtkwaveor vapor view extension in
+    // vscode.
+    initial begin
+        $dumpfile("subway_gate_fsm_tb.vcd");
+        $dumpvars(0, subway_gate_fsm_tb);
+        $system("date");
     end
 
 endmodule
